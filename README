@@ -1,0 +1,14 @@
+[AMBIENTE DE DESENVOLVIMENTO]
+* Linux Ubuntu 10.10 (32 bits) & Linux Ubuntu Netbook Remix 10.10 (32 bits)
+* gcc (Ubuntu/Linaro 4.4.4-14ubuntu5) 4.4.5
+* https://github.com/rafamanzo/Make
+
+
+TAREFA 3 DE MAC0328 (Algoritmos em Grafos)
+http://www.ime.usp.br/~coelho/mac0328-2011/tarefas/tarefa3/
+
+  [DESCRIÇÃO]
+  * O programa deve ler um arquivo MakeFile que tem sintaxe identica a do Makefile (lido pelo utilitário make) e montar um digrafo de dependencias utilizando um vetor de listas de adjacencia como estrutura de dados.
+
+
+2011 - Rafael Reegiani Manzo
