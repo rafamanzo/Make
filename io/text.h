@@ -11,3 +11,4 @@ typedef struct txt{
 
 text getText(char *file);
 void printText(text txt);
+void writeText(char *file, text txt);

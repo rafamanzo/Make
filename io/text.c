@@ -6,7 +6,7 @@
 
 #define fileClose fclose
 
-FILE * fileOpen(char *file){
+FILE * fileOpenI(char *file){
   FILE *fp;
 
   fp = fopen(file, "r");
@@ -19,13 +19,27 @@ FILE * fileOpen(char *file){
   
 }
 
+FILE * fileOpenO(char *file){
+  FILE *fp;
+
+  fp = fopen(file, "w");
+  if(fp == NULL){
+    printf("\nCould not open file: %s", file);
+    exit(-1);    
+  }
+
+  return fp;
+  
+}
+
+
 text getText(char *file){
   FILE *fp;
   text head;
   text *before, *actual;
   text_line aux;
   
-  fp = fileOpen(file);  
+  fp = fileOpenI(file);  
   actual = malloc(sizeof(text));
   if(actual == NULL){
     printf("\nCan't allocate memory to line");
@@ -73,4 +87,19 @@ void printText(text txt){
     aux = aux->next_line;
   }while(aux != NULL);
 
+}
+
+void writeText(char *file, text txt){
+  text *aux;
+  FILE *fp;
+
+  aux = &txt;
+  fp = fileOpenO(file);  
+
+  do{
+    writeTextLine(fp, aux->line);
+    aux = aux->next_line;
+  }while(aux != NULL);
+
+  fileClose(fp);
 }
