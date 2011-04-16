@@ -5,3 +5,4 @@ text.o
 main.o
 MakeFile
 MakeFile.dig
+MakeFile.dg

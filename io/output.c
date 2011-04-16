@@ -16,6 +16,8 @@ void printTextLine(text_line line){
 void writeTextLine(FILE *file, text_line line){
   int i;
 
+  fprintf(file, "\n");
+
   for(i = 0;i < line.size; i++){
     fprintf(file, "%c", line.txt[i]);
   }
