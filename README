@@ -9,6 +9,8 @@ http://www.ime.usp.br/~coelho/mac0328-2011/tarefas/tarefa3/
 
   [DESCRIÇÃO]
   * O programa deve ler um arquivo MakeFile que tem sintaxe identica a do Makefile (lido pelo utilitário make) e montar um digrafo de dependencias, utilizando um vetor de listas de adjacencia como estrutura de dados, e como resultdo de percorrer o digrafo gere um novo MakeFile.dg.
+  * A estrutura de um digrafo foi alterada da seguinte forma:
+    - Todo digafo começa com 0 vértices, pois este número varia de 0 a maxV. Portanto, depdig.c possui uma função para criação de vértices em digrafo que lida com esta alteração.
 
 
 2011 - Rafael Reegiani Manzo

@@ -14,16 +14,16 @@ link NEW(Vertex w, link next){
   return n;
 }
 
-Digraph DIGRAPHinit(int V){
+Digraph DIGRAPHinit(){
   Vertex v;
   Digraph G;
 
   G = malloc(sizeof(struct digraph));
 
-  G->V = V;
+  G->V = 0;
   G->A = 0;
 
-  G->adj = malloc(V*sizeof(link));
+  G->adj = malloc(maxV*sizeof(link));
   
   for(v = 0; v < G->V; v++)
     G->adj[v] = NULL;

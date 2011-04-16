@@ -21,4 +21,6 @@ void DIGRAPHshow(Digraph G);
 int DIGRAPHpath(Digraph G, Vertex s, Vertex t);
 
 static int lbl[maxV];
-static Vertex parnt[maxV]; 
+static Vertex parnt[maxV];
+
+#define maxV 1024 

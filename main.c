@@ -3,7 +3,7 @@
 #include "io/text.h"
 
 #define MAKEFILE "MakeFile"
-#define MAKEFILED "MakeFile.dig"
+#define MAKEFILED "MakeFile.dg"
 
 int main( int argc, const char* argv[]){
   text txt;

@@ -28,4 +28,4 @@ output.o: io/output.c io/output.h io/text.h
 
 clean:
 	rm *.o
-	rm Mesa
+	rm Make
