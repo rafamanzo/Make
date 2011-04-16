@@ -37,7 +37,7 @@ void newVert(Digraph G, char *n){
   G->V++;
 }
 
-Digraph genDepDig(text txt){
+Digraph depDigGen(text txt){
   text *aux;
   text_line line;
   char *nom;
@@ -65,30 +65,34 @@ Digraph genDepDig(text txt){
         }
 
         nom = writeChar('\0', nom, &size_nom); /*para o strcmp é importante que as strings terminem com o caracter nulo \0*/
-
+        
         target = lookupNameNum(nom, G->V);
         if(target < 0){
           newVert(G, nom);
           target = G->V - 1;
         }
+        printf("\ntarget[%d]:*%s*", target, nom); 
         nom = NULL;
         size_nom = 0;
+
+        pos++;
 
         /*loop que captura nomes de dependencias*/
         while(pos < line.size){
           while(line.txt[pos] != ' '){ 
             nom = writeChar(line.txt[pos++], nom, &size_nom);
           }
-    
-          nom = writeChar('\0', nom, &size_nom);
 
           /*evita que espaços em branco e quebras de linha sejam entendidos como dependencias*/
           if(size_nom > 0){
+            nom = writeChar('\0', nom, &size_nom);
+
             dep = lookupNameNum(nom, G->V);
             if(dep < 0){
               newVert(G, nom);
               dep = G->V - 1;
             }
+            printf("\ndependency[%d]:*%s*", dep, nom); 
             nom = NULL;
             size_nom = 0;
 

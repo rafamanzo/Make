@@ -1,16 +1,21 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "io/text.h"
+#include "ed/vertex.h"
+#include "ed/digraph.h"
+#include "depdig.h"
 
 #define MAKEFILE "MakeFile"
 #define MAKEFILED "MakeFile.dg"
 
 int main( int argc, const char* argv[]){
   text txt;
+  Digraph G;
 
   txt = getText(MAKEFILE);
-  printText(txt);
-  writeText(MAKEFILED, txt);  
+  depDigInit();
+  G = depDigGen(txt);
+  DIGRAPHshow(G);
 
   return 0;
 }

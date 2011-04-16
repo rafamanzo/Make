@@ -6,7 +6,7 @@
 ####################################
 
 #argumentos de compilacao
-CFLAGS = -ansi -pedantic -Wall
+CFLAGS = -ansi -pedantic -Wall -g
 
 Make: main.o text.o input.o output.o depdig.o digraph.o
 	gcc main.o text.o input.o output.o depdig.o digraph.o -o Make

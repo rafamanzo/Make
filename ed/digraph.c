@@ -25,7 +25,7 @@ Digraph DIGRAPHinit(){
 
   G->adj = malloc(maxV*sizeof(link));
   
-  for(v = 0; v < G->V; v++)
+  for(v = 0; v < maxV; v++)
     G->adj[v] = NULL;
 
   return G;
