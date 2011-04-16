@@ -1,4 +1,6 @@
 #include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
 #include "io/text.h"
 #include "io/input.h"
 #include "ed/vertex.h"
@@ -22,7 +24,7 @@ int lookupNameNum(char *n, int size){
   int i;
 
   for(i = 0; i < size - 1; i++){
-    if(!strcmp(nome[i], n)
+    if(!strcmp(nome[i], n))
       return i;
   }
 
@@ -43,7 +45,7 @@ Digraph genDepDig(text txt){
   Digraph G;
   Vertex target, dep;
 
-  G = DIGRAPHInit();
+  G = DIGRAPHinit();
   nom = NULL;
   aux = &txt;
   target = -1;
@@ -97,10 +99,10 @@ Digraph genDepDig(text txt){
         }  
       }else{/*trata os comandos*/
         while(pos < line.size){
-          comandos[target] = writeChar(line.txt[pos++], comandos[target], size_com);
+          comandos[target] = writeChar(line.txt[pos++], comandos[target], &size_com);
         }
 
-        comandos[target] = writeChar(';', comandos[target], size_com);
+        comandos[target] = writeChar(';', comandos[target], &size_com);
       }
     }else{
       target = -1;
@@ -109,4 +111,6 @@ Digraph genDepDig(text txt){
     aux = aux->next_line;
 
   }
+
+  return G;
 }

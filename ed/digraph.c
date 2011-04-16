@@ -48,7 +48,7 @@ void DIGRAPHremoveA(Digraph G, Vertex v, Vertex w){
   if(v==w) return;
 
   before = NULL;
-  for(actual = G->adj[v]; actual != NULL; acual = actual->next){
+  for(actual = G->adj[v]; actual != NULL; actual = actual->next){
     if(actual->w == w){
       before->next = actual->next;
       free(actual);
@@ -66,10 +66,21 @@ void DIGRAPHshow(Digraph G){
 
   for(v = 0; v < G->V; v++){
     printf(" %2d:", v);
-    for(n = G->adj[v]; p != NULL; n = n->next)
+    for(n = G->adj[v]; n != NULL; n = n->next)
       printf(" %2d" , n->w);
     printf("\n");
   }
+}
+
+void pathR(Digraph G, Vertex v){
+  link n;
+
+  lbl[v] = 0;
+  for(n = G->adj[v]; n != NULL; n = n->next)
+    if(lbl[n->w] == -1){
+      parnt[n->w] = v;
+      pathR(G, n->w);
+    }
 }
 
 int DIGRAPHpath(Digraph G, Vertex s, Vertex t){
@@ -85,15 +96,4 @@ int DIGRAPHpath(Digraph G, Vertex s, Vertex t){
 
   if(lbl[t] == -1) return 0;
   else return 1;
-}
-
-void pathR(Digraph G, Vertex v){
-  link n;
-
-  lbl[v] = 0;
-  for(n = G->adj[v]; n != NULL; n = n->next)
-    if(lbl[n->w] == -1){
-      parnt[p->w] = v;
-      pathR(G, p->w);
-    }
 }

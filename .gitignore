@@ -3,6 +3,8 @@ Make
 output.o
 text.o
 main.o
+depdig.o
+digraph.o
 MakeFile
 MakeFile.dig
 MakeFile.dg

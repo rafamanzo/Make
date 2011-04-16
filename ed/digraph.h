@@ -1,6 +1,8 @@
+#define maxV 1024 
+
 struct node{
   Vertex w;
-  link next;
+  struct node *next;
 };
 
 typedef struct node *link;
@@ -22,5 +24,3 @@ int DIGRAPHpath(Digraph G, Vertex s, Vertex t);
 
 static int lbl[maxV];
 static Vertex parnt[maxV];
-
-#define maxV 1024 
