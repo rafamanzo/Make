@@ -66,6 +66,7 @@ Digraph genDepDig(text txt){
       }
     }
 
+
     aux = aux->next_line;
   }
 }
