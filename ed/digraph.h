@@ -1,4 +1,6 @@
 #define maxV 1024 
+#define VIS 1
+#define N_VIS 0
 
 struct node{
   Vertex w;

@@ -15,7 +15,8 @@ int main( int argc, const char* argv[]){
   txt = getText(MAKEFILE);
   depDigInit();
   G = depDigGen(txt);
-  DIGRAPHshow(G);
+  txt = makefileGen(G);
+  writeText(MAKEFILED, txt);
 
   return 0;
 }

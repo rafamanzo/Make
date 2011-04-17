@@ -8,12 +8,14 @@
 #include "depdig.h"
 
 static char  *nome[maxV], *comandos[maxV];
+static int com_size[maxV], nam_size[maxV];
 
 void depDigInit(){
   int i;
 
   for(i = 0; i < maxV; i++){
     nome[i] = comandos[i] = NULL;
+    com_size[i] = nam_size[i] = 0;
   }
 }
 
@@ -33,7 +35,6 @@ int lookupNameNum(char *n, int size){
 
 void newVert(Digraph G, char *n){
   nome[G->V] = n;
-
   G->V++;
 }
 
@@ -70,8 +71,9 @@ Digraph depDigGen(text txt){
         if(target < 0){
           newVert(G, nom);
           target = G->V - 1;
+          nam_size[target] = size_nom;
         }
-        printf("\ntarget[%d]:*%s*", target, nom); 
+ 
         nom = NULL;
         size_nom = 0;
 
@@ -79,7 +81,7 @@ Digraph depDigGen(text txt){
 
         /*loop que captura nomes de dependencias*/
         while(pos < line.size){
-          while(line.txt[pos] != ' '){ 
+          while(pos < line.size && line.txt[pos] != ' '){
             nom = writeChar(line.txt[pos++], nom, &size_nom);
           }
 
@@ -91,8 +93,9 @@ Digraph depDigGen(text txt){
             if(dep < 0){
               newVert(G, nom);
               dep = G->V - 1;
+              nam_size[dep] = size_nom;
             }
-            printf("\ndependency[%d]:*%s*", dep, nom); 
+ 
             nom = NULL;
             size_nom = 0;
 
@@ -102,11 +105,13 @@ Digraph depDigGen(text txt){
           pos++;       
         }  
       }else{/*trata os comandos*/
+        pos = 0;
         while(pos < line.size){
           comandos[target] = writeChar(line.txt[pos++], comandos[target], &size_com);
         }
 
         comandos[target] = writeChar(';', comandos[target], &size_com);
+        com_size[target] = size_com;
       }
     }else{
       target = -1;
@@ -117,4 +122,53 @@ Digraph depDigGen(text txt){
   }
 
   return G;
+}
+
+text makefileGen(Digraph G){
+  text *aux, *ret;
+  Vertex v;
+  link p;
+
+  aux = malloc(sizeof(text));
+  if(aux == NULL){
+    printf("\nCan't allocate memory to line");
+    exit(-1);
+  }
+  aux->line.txt = NULL;
+  aux->line.size = 0;
+
+  ret = aux;
+
+  for(v = 0; v < G->V; v++){
+    if(comandos[v] != NULL){/*significa que estamos num target*/
+      aux->line.txt = append(aux->line.txt, &aux->line.size,  nome[v], nam_size[v]);
+      aux->line.txt = writeChar(':', aux->line.txt, &aux->line.size);
+      for(p = G->adj[v]; p != NULL; p = p->next){/*escreve as dependencias*/
+        aux->line.txt = writeChar(' ', aux->line.txt, &aux->line.size);
+        aux->line.txt = append(aux->line.txt, &aux->line.size,  nome[p->w], nam_size[p->w]);
+      }
+
+      aux->next_line = malloc(sizeof(text));
+      if(aux == NULL){
+        printf("\nCan't allocate memory to line");
+        exit(-1);
+      }
+      aux = aux->next_line;
+      aux->line.txt = NULL;
+      aux->line.size = 0;
+
+      aux->line.txt = append(aux->line.txt, &aux->line.size,  comandos[v], com_size[v]);/*comandos numa nova linha*/
+
+      aux->next_line = malloc(sizeof(text));
+      if(aux == NULL){
+        printf("\nCan't allocate memory to line");
+        exit(-1);
+      }
+      aux = aux->next_line;
+      aux->line.txt = NULL;
+      aux->line.size = 0;
+    }
+  } 
+
+  return *ret;
 }

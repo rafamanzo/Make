@@ -19,6 +19,7 @@ void writeTextLine(FILE *file, text_line line){
   fprintf(file, "\n");
 
   for(i = 0;i < line.size; i++){
-    fprintf(file, "%c", line.txt[i]);
+    if(line.txt[i] != '\0')
+      fprintf(file, "%c", line.txt[i]);
   }
 }
