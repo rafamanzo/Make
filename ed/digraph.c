@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include "vertex.h"
 #include "digraph.h"
+#include "digraph_globals.h"
 
 link NEW(Vertex w, link next){
   link n;
