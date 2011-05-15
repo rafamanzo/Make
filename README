@@ -1,16 +1,18 @@
 [AMBIENTE DE DESENVOLVIMENTO]
-* Linux Ubuntu 10.10 (32 bits) & Linux Ubuntu Netbook Remix 10.10 (32 bits)
+* Linux Ubuntu 10.10 (32 bits) & Linux Ubuntu Netbook Remix 11.04 (32 bits)
 * gcc (Ubuntu/Linaro 4.4.4-14ubuntu5) 4.4.5
 * https://github.com/rafamanzo/Make
 
 
-TAREFA 3 DE MAC0328 (Algoritmos em Grafos)
-http://www.ime.usp.br/~coelho/mac0328-2011/tarefas/tarefa3/
+TAREFA 4 DE MAC0328 (Algoritmos em Grafos)
+http://www.ime.usp.br/~coelho/mac0328-2011/tarefas/tarefa4/
 
   [DESCRIÇÃO]
-  * O programa deve ler um arquivo MakeFile que tem sintaxe identica a do Makefile (lido pelo utilitário make) e montar um digrafo de dependencias, utilizando um vetor de listas de adjacencia como estrutura de dados, e como resultdo de percorrer o digrafo gere um novo MakeFile.dg.
+  * O programa deve ler um arquivo MakeFile que tem sintaxe identica a do Makefile (lido pelo utilitário make) e montar um digrafo de dependencias, utilizando um vetor de listas de adjacencia como estrutura de dados, e como resultado processar este MakeFile como o make faria.
+    -opção -s: percorrer o digrafo gere um novo MakeFile.dg.
   * A estrutura de um digrafo foi alterada da seguinte forma:
     - Todo digafo começa com 0 vértices, pois este número varia de 0 a maxV. Portanto, depdig.c possui uma função para criação de vértices em digrafo que lida com esta alteração.
+  
 
 
 2011 - Rafael Reegiani Manzo

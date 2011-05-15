@@ -9,3 +9,6 @@ MakeFile
 MakeFile.dig
 MakeFile.dg
 out
+macaco
+macaca
+syscalls.o

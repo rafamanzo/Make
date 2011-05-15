@@ -98,3 +98,24 @@ int DIGRAPHpath(Digraph G, Vertex s, Vertex t){
   if(lbl[t] == -1) return 0;
   else return 1;
 }
+
+int cycleR (Digraph G, Vertex v) { 
+   link p;
+   lbl[v] = -2;
+   for (p = G->adj[v]; p != NULL; p = p->next) {
+      Vertex w = p->w;
+      if (lbl[w] == -1) {
+         if (cycleR(G, w) == 1) return 1;
+      }
+      else if (lbl[w] == -2) return 1;
+   }
+   lbl[v] = -3;
+   return 0;
+}
+
+int DIGRAPHcycle(Digraph G, Vertex v){
+  Vertex w;
+
+  for (w = 0; w < G->V; w++) lbl[w] = -1;
+  return cycleR(G, v);
+}

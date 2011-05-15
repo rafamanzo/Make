@@ -4,7 +4,7 @@
 #include "input.h"
 
 char * writeChar(char c, char *str, int *size){
-  str = realloc(str, ++*size*sizeof(char));
+  str = realloc(str, (++*size)*sizeof(char));
   if(str == NULL){
     printf("\nCan't allocate memory for string");
     exit(-1);

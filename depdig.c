@@ -6,16 +6,21 @@
 #include "ed/vertex.h"
 #include "ed/digraph.h"
 #include "depdig.h"
+#include "syscalls.h"
 
+typedef enum {FALSE,TRUE} Boolean;
 static char  *nome[maxV], *comandos[maxV];
 static int com_size[maxV], nam_size[maxV], targets[maxV];
+long mod_time[maxV];
+Boolean up_to_date[maxV];
 
 void depDigInit(){
   int i;
 
   for(i = 0; i < maxV; i++){
     nome[i] = comandos[i] = NULL;
-    com_size[i] = nam_size[i] = targets[i] = 0;
+    mod_time[i] = com_size[i] = nam_size[i] = targets[i] = 0;
+    up_to_date[i] = FALSE;
   }
 }
 
@@ -35,6 +40,12 @@ int lookupNameNum(char *n, int size){
 
 void newVert(Digraph G, char *n){
   nome[G->V] = n;
+  mod_time[G->V] = mtime(n);
+  if(mod_time[G->V] == -1){
+    up_to_date[G->V] = FALSE;
+  }else{
+    up_to_date[G->V] = TRUE;
+  }
   G->V++;
 }
 
@@ -97,7 +108,9 @@ Digraph depDigGen(text txt){
                 dep = G->V - 1;
                 nam_size[dep] = size_nom;
               }
-   
+              if(mod_time[dep] == -1 || mod_time[dep] > mod_time[target])
+                up_to_date[dep] = up_to_date[target] = FALSE;
+              
               nom = NULL;
               size_nom = 0;
 
@@ -108,15 +121,19 @@ Digraph depDigGen(text txt){
           }
         }  
       }else{/*trata os comandos*/
-        pos = 0;
-        while(pos < line.size && line.txt[0] != '#'){
+        pos = 1;
+        size_com = 0;
+
+        while(pos < (line.size) && line.txt[0] != '#' && line.txt[pos] != EOF && line.txt[pos] != '\0'){
           comandos[target] = writeChar(line.txt[pos++], comandos[target], &size_com);
         }
 
         if(size_com > 0){
           comandos[target] = writeChar(';', comandos[target], &size_com);
+          comandos[target] = writeChar('\0', comandos[target], &size_com);
           com_size[target] = size_com;
         }
+
       }
     }else{
       target = -1;
@@ -186,4 +203,58 @@ text makefileGen(Digraph G){
   } 
 
   return *ret;
+}
+
+int make(Digraph G, char *c){
+  Vertex target, dep;
+  link p;
+  int i;
+
+  if(c != NULL){
+    target = lookupNameNum(c, G->V);
+    if(target < 0){
+      printf("\nCouldn't find target: %s", c);
+      return 0;
+    }
+  }else{
+    target = -1;
+    for(i = 0; i < G->V; i++)
+      if(targets[i] && target < 0)
+        target = i;
+
+    if(target < 0){
+      printf("\nCouldn't find any target");
+      return 0;
+    }
+  }
+
+  if(DIGRAPHcycle(G, target)){
+    printf("\nCyclical dependencies for target: %s", nome[target]);
+    return 0;
+  }
+
+  printf("alvo %s\n", nome[target]);
+
+  for(p = G->adj[target]; p != NULL; p = p->next){
+    dep = p->w;
+
+    printf("dependencia: %s\n", nome[dep]);
+
+    if(!up_to_date[dep]){
+      if(targets[dep] == 1){
+        if(!make(G, nome[dep]))
+          return 0;
+      }else{
+        if(mod_time[dep] == -1){
+          printf("\nMissing dependecy file: %s",nome[dep]);
+          return 0;
+        }
+      } 
+    }
+  }
+
+  up_to_date[target] = TRUE;
+
+  return execute(comandos[target]);
+  
 }
